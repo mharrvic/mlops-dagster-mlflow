@@ -40,7 +40,7 @@ jobs:
       # Run our pipeline
       - name: Run mlflow pipeline
         run: |
-          dagster job execute -f my_dagster_project/assets.py
+          dagster job execute -f my-dagster-project/my_dagster_project/assets.py
 
   DeployDev:
     name: Deploy to Dev
