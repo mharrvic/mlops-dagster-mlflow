@@ -1,18 +1,18 @@
-name: CI/CD Pipeline - Dev
+name: CI/CD Pipeline - Staging
 run-name: MLOps with Dagster and MLflow
 
 on:
   push:
     branches:
-      - main
+      - staging
   pull_request:
     branches:
-      - main
+      - staging
 env:
   DB_FLAG: CI
 
 jobs:
-  Build:
+  DeployStaging:
     runs-on: ubuntu-latest
 
     steps:
