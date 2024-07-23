@@ -1,0 +1,77 @@
+name: CI/CD Pipeline
+run-name: MLOps with Dagster and MLflow
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+env:
+  DB_FLAG: CI
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE
+      - uses: actions/checkout@v3
+
+      # Set up Python 3.9 environment
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      # Run tests
+      - name: Run tests
+        run: |
+          pytest my_dagster_project_tests
+
+      # Run our pipeline
+      - name: Run mlflow pipeline
+        run: |
+          dagster job execute -f my_dagster_project/assets.py
+
+  DeployDev:
+    name: Deploy to Dev
+    if: github.event_name == 'pull_request'
+    needs: [Build]
+    runs-on: ubuntu-latest
+    environment:
+      name: Dev
+      url: "https://dev.samplemodel.endpoint"
+    steps:
+      - name: Deploy
+        run: echo deploying to Dev!
+
+  DeployStaging:
+    name: Deploy to Staging
+    if: github.event.ref == 'refs/heads/dev'
+    needs: [Build]
+    runs-on: ubuntu-latest
+    environment:
+      name: Staging
+      url: "https://test.samplemodel.endpoint"
+    steps:
+      - name: Deploy
+        run: echo deploying to Staging!
+
+  DeployProd:
+    name: Deploy to Production
+    needs: [DeployStaging]
+    runs-on: ubuntu-latest
+    environment:
+      name: Prod
+      url: "https://prod.samplemodel.endpoint"
+    steps:
+      - name: Deploy
+        run: echo deploying to Prod!
