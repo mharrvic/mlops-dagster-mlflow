@@ -39,10 +39,7 @@ jobs:
       url: "https://dev.samplemodel.endpoint"
     steps:
       - name: Install dependencies
-        run: |
-          cd my-dagster-project
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+        run: echo "Installing dependencies"
 
       - name: Run mlflow pipeline
         run: echo "Running mlflow pipeline in Dev"
@@ -57,10 +54,7 @@ jobs:
       url: "https://test.samplemodel.endpoint"
     steps:
       - name: Install dependencies
-        run: |
-          cd my-dagster-project
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+        run: echo "Installing dependencies"
 
       - name: Run mlflow pipeline
         run: echo "Running mlflow pipeline in Staging"
@@ -74,10 +68,7 @@ jobs:
       url: "https://prod.samplemodel.endpoint"
     steps:
       - name: Install dependencies
-        run: |
-          cd my-dagster-project
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+        run: echo "Installing dependencies"
 
       - name: Run mlflow pipeline
         run: echo "Running mlflow pipeline in Prod"
