@@ -1,18 +1,18 @@
-name: CI/CD Pipeline - Dev
+name: CI/CD Pipeline - Prod
 run-name: MLOps with Dagster and MLflow
 
 on:
   push:
     branches:
-      - main
+      - prod
   pull_request:
     branches:
-      - main
+      - prod
 env:
   DB_FLAG: CI
 
 jobs:
-  Build:
+  DeployProd:
     runs-on: ubuntu-latest
 
     steps:
