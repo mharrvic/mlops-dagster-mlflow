@@ -179,3 +179,4 @@ node_modules
 # Add additional files and directories to ignore here
 temp/
 tmp/
+tmp*
